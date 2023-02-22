@@ -56,6 +56,12 @@ public class Embeddings {
 
         @POST("batchtransform")
         Call<List<List<Double>>> batchtransform(@Body List<String> texts);
+
+        @GET("save")
+        Call<Void> save(@Query("path") String path);
+
+        @GET("load")
+        Call<Void> load(@Query("path") String path);
     }
 
     /**
@@ -120,7 +126,7 @@ public class Embeddings {
      * the document id in the embeddings model.
      *
      * @param queries queries text
-     * @param limit maximum results
+     * @param texts 
      * @return list of {id: value, score: value} per query
      */
     public List<List<SearchResult>> batchsearch(List<String> queries, List<String> texts) throws IOException {
@@ -228,5 +234,13 @@ public class Embeddings {
      */
     public List<List<Double>> batchtransform(List<String> texts) throws IOException {
         return this.api.batchtransform(texts).execute().body();
+    }
+
+    public void save(String path) throws IOException {
+        this.api.save(path).execute().body();
+    }
+
+    public void load(String path) throws IOException {
+        this.api.load(path).execute().body();
     }
 }
